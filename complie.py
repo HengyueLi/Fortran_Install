@@ -13,6 +13,17 @@ def listdir_nohidden(path):
         if not f.startswith('.'):
             yield f
 
+def GetListdirBySuffix(path,suffix):
+    r = []
+    for file in os.listdir(path):
+        if file.endswith(suffix):
+            r.append(  os.path.join(path, file) )
+    return r
+
+
+
+
+
 
 
 FilePath = os.path.abspath(__file__)
@@ -54,11 +65,15 @@ for pro in SubProjList:
 
 #--------------------------------
 #  compile
+DependentOfiles = GetListdirBySuffix(ModsPath,'.o')
+DependentOfilesString = " ".join(DependentOfiles)
 os.chdir(ProjPath)
-CompileCommand = Compiler +" "+ ComFlag + " -IMods  ./Mods/*.o  *.f90 -llapack "
+CompileCommand = Compiler +" -c "+ ComFlag + " -IMods "+DependentOfilesString+"  *.f90 -llapack "
 print(CompileCommand)
 os.system(CompileCommand)
 os.system('mv *.mod ./Mods')
 #-------------------------------
 #  delete dependency.o
-os.system('rm -rf ./Mods/*.o')
+for jc in DependentOfiles:
+    os.remove(jc)
+    
