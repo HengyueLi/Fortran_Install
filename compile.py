@@ -56,7 +56,7 @@ for pro in SubProjList:
     pyfile     = os.path.join(SubProPath,'Install','compile.py')
     #-----------------------------------------------------------
     # run python file in the sub project.
-    os.system( 'python3 '+ pyfile + sys.argv[1] + sys.argv[2])
+    os.system( 'python3 '+ pyfile +" " + sys.argv[1]+ " " + sys.argv[2])
     #-----------------------------------------------------------
     # move ofile to current/Mods folders
     ObtainedOfile = pro + '.o'
