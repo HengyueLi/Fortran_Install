@@ -8,6 +8,11 @@ import os,sys
 Compiler = sys.argv[1]
 ComFlag  = sys.argv[2]
 
+def listdir_nohidden(path):
+    for f in os.listdir(path):
+        if not f.startswith('.'):
+            yield f
+
 
 
 FilePath = os.path.abspath(__file__)
@@ -21,7 +26,10 @@ DepePath = os.path.join(ProjPath,'Depe')
 
 
 
-SubProjList = os.listdir(DepePath)
+SubProjList = listdir_nohidden(DepePath)
+
+
+
 
 
 #--------------------------------
@@ -46,11 +54,11 @@ for pro in SubProjList:
 
 #--------------------------------
 #  compile
-   os.chdir(ProjPath)
-   CompileCommand = Compiler +" "+ ComFlag + " -IMods  ./Mods/*.o  *.f90 -llapack "
-   print(CompileCommand)
-   os.system(CompileCommand)
-   os.system('mv *.mod ./Mods')
+os.chdir(ProjPath)
+CompileCommand = Compiler +" "+ ComFlag + " -IMods  ./Mods/*.o  *.f90 -llapack "
+print(CompileCommand)
+os.system(CompileCommand)
+os.system('mv *.mod ./Mods')
 #-------------------------------
 #  delete dependency.o
-   os.system('rm -rf ./Mods/*.o')
+os.system('rm -rf ./Mods/*.o')
