@@ -54,14 +54,15 @@ for pro in SubProjList:
     #-----------------------------------------------------------
     # move ofile to current/Mods folders
     ObtainedOfile = pro + '.o'
-    OfilePath     = os.path.join(DSubProPath,OfilePath)
+    OfilePath     = os.path.join(SubProPath,OfilePath)
     # Folder Mods used to temperally save all lib.o files. After final '.o' file is obtained, delete them.
     DestiPath     = os.path.join(ModsPath,ObtainedOfile)
     os.rename( OfilePath ,  DestiPath )
     #-----------------------------------------------------------
-    # move all .mod file
+    # move all .mod file to main project/Mods
     SubMod = os.path.join(SubProPath,'Mods')
     os.system( 'mv '+SubMod+" *.mod "+ ModsPath  )
+
 
 #--------------------------------
 #  compile
@@ -76,4 +77,3 @@ os.system('mv *.mod ./Mods')
 #  delete dependency.o
 for jc in DependentOfiles:
     os.remove(jc)
-    
