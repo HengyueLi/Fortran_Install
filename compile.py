@@ -17,8 +17,9 @@ python = sys.executable
 #===============================================================================
 parser = argparse.ArgumentParser()
 #--------add options
-parser.add_argument("--compiler", "-c", help="Set compiler, defualt is ifort")
-parser.add_argument("--flag", "-f", help="Set flag to compiler")
+parser.add_argument("--compiler", "-c", help="Set compiler, defualt is ifort"    )
+parser.add_argument("--flag"    , "-f", help="Set flag to compiler"              )
+parser.add_argument("--clib"    , "-l", help="add lib when compilering",nargs='*')
 
 # read arguments from the command line
 args = parser.parse_args()
@@ -27,7 +28,7 @@ if args.compiler:
     print("Set compiler :  %s" % args.compiler)
     Compiler = args.compiler
 else:
-    print("Set compiler : ifort (defult) ")
+    #print("Set compiler : ifort (defult) ")
     Compiler = 'ifort'
 
 if args.flag:
@@ -35,6 +36,11 @@ if args.flag:
     Cflag = args.flag
 else:
     Cflag = " "
+
+if args.clib:
+    CLib = " -l".join(args.clib)
+else:
+    CLib = " "
 
 
 
@@ -85,6 +91,7 @@ InstPath = os.path.dirname(FilePath)
 ProjPath = os.path.dirname(InstPath)
 
 ModsPath = os.path.join(ProjPath,'Mods')
+OfilPath = os.path.join(ProjPath,'Ofil')
 InclPath = os.path.join(ProjPath,'Incl')
 DepePath = os.path.join(ProjPath,'Depe')
 
@@ -102,11 +109,11 @@ for pro in SubProjList:
     # run python file in the sub project.
     os.system( python + " " + pyfile +" " + PythonArg )
     #-----------------------------------------------------------
-    # move ofile to current/Mods folders
+    # move ofile to current/Ofiles folders
     ObtainedOfile = pro + '.o'
     OfilePath     = os.path.join(SubProPath,ObtainedOfile)
     # Folder Mods used to temperally save all lib.o files. After final '.o' file is obtained, move them out.
-    DestiPath     = os.path.join(ModsPath,ObtainedOfile)
+    DestiPath     = os.path.join(OfilPath,ObtainedOfile)
     os.rename( OfilePath ,  DestiPath )
     #-----------------------------------------------------------
     # move all '.mod' files to main project/Mods
@@ -127,7 +134,7 @@ DependentOfilesString = " ".join(DependentOfiles)
 #--------------------------------
 #  compile
 os.chdir(ProjPath)
-CompileCommand = Compiler +" -c "+ ComFlag + " -IMods "+DependentOfilesString+"  *.f90 -llapack "
+CompileCommand = Compiler +" -c "+ ComFlag + " -IMods "+DependentOfilesString+"  *.f90 "+CLib
 os.system(CompileCommand)
 ProjectModsfiles = GetListDirectory(ProjPath).GetListdirNameBySuffix('.mod')
 #--------------------------------
@@ -135,6 +142,9 @@ ProjectModsfiles = GetListDirectory(ProjPath).GetListdirNameBySuffix('.mod')
 for jc in ProjectModsfiles:
     os.rename( os.path.join(ProjPath,jc) , os.path.join(ModsPath,jc)       )
 #-------------------------------
-#  delete dependency.o
-for jc in DependentOfiles:
-    os.remove(jc)
+#move wanted ofile into Ofil
+ProjectOfiles = GetListDirectory(ProjPath).GetListdirNameBySuffix('.o')
+for jc in ProjectOfiles:
+    os.rename( os.path.join(ProjPath,jc) , os.path.join(OfilPath,jc)       )
+
+    
