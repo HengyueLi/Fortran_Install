@@ -13,11 +13,17 @@ def listdir_nohidden(path):
         if not f.startswith('.'):
             yield f
 
-def GetListdirBySuffix(path,suffix):
+
+# if t = 1 , return full path
+# if t = 0 , return file name only.
+def GetListdirBySuffix(path,suffix,t = 1):
     r = []
     for file in os.listdir(path):
         if file.endswith(suffix):
-            r.append(  os.path.join(path, file) )
+            if t==0:
+                r.append(  file )
+            elif t==1:
+                r.append(  os.path.join(path, file) )
     return r
 
 
@@ -54,14 +60,17 @@ for pro in SubProjList:
     #-----------------------------------------------------------
     # move ofile to current/Mods folders
     ObtainedOfile = pro + '.o'
-    OfilePath     = os.path.join(SubProPath,OfilePath)
-    # Folder Mods used to temperally save all lib.o files. After final '.o' file is obtained, delete them.
+    OfilePath     = os.path.join(SubProPath,ObtainedOfile)
+    # Folder Mods used to temperally save all lib.o files. After final '.o' file is obtained, move them out.
     DestiPath     = os.path.join(ModsPath,ObtainedOfile)
     os.rename( OfilePath ,  DestiPath )
     #-----------------------------------------------------------
     # move all .mod file to main project/Mods
-    SubMod = os.path.join(SubProPath,'Mods')
-    os.system( 'mv '+SubMod+" *.mod "+ ModsPath  )
+    SubMod      = os.path.join(SubProPath,'Mods')
+    submodfiles = GetListdirBySuffix(SubMod,'.mod', t = 0 )
+    for jc in submodfiles:
+        os.rename(  os.path.join(SubMod,jc) ,  os.path.join(ModsPath,jc)         )
+
 
 
 #--------------------------------
