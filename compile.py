@@ -66,7 +66,7 @@ class GetListDirectory():
 
     def GetListdirNameBySuffix(self,suffix):
         r = []
-        l = selfl.GetlistdirName()
+        l = self.GetlistdirName()
         for jc in l:
             if jc.endswith(suffix):
                 r.append(jc)
