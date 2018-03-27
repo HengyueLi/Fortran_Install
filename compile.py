@@ -38,7 +38,7 @@ else:
     Cflag = " "
 
 if args.clib:
-    CLib = " -l".join(args.clib)
+    CLib = " ".join([" -l"+jc for jc in args.clib])
 else:
     CLib = " "
 
