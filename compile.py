@@ -85,6 +85,13 @@ class GetListDirectory():
         return r
 
 
+def MoveFileBySuffix(SourceFolder,DestinyFolder,suffix):
+    sources = GetListDirectory(SourceFolder).GetListdirNameBySuffix(suffix)
+    for jc in sources:
+        os.rename( os.path.join(SourceFolder,jc) , os.path.join(DestinyFolder,jc)  )
+
+
+
 Filename = os.path.basename(__file__)
 FilePath = os.path.abspath(__file__)
 InstPath = os.path.dirname(FilePath)
@@ -110,19 +117,12 @@ for pro in SubProjList:
     os.system( python + " " + pyfile +" " + PythonArg )
     #-----------------------------------------------------------
     # move ofile to current/Ofiles folders
-    ObtainedOfile = pro + '.o'
-    OfilePath     = os.path.join(SubProPath,ObtainedOfile)
-    # Folder Mods used to temperally save all lib.o files. After final '.o' file is obtained, move them out.
-    DestiPath     = os.path.join(OfilPath,ObtainedOfile)
-    os.rename( OfilePath ,  DestiPath )
+    SubOfil = os.path.join( SubProPath , 'Ofil' )
+    MoveFileBySuffix(SourceFolder=SubProPath,DestinyFolder=SubOfil,suffix='.o')
     #-----------------------------------------------------------
     # move all '.mod' files to main project/Mods
     SubMod      = os.path.join(SubProPath,'Mods')
-    submodfiles = GetListDirectory(SubMod).GetListdirNameBySuffix('.mod')
-    for jc in submodfiles:
-        os.rename(  os.path.join(SubMod,jc) ,  os.path.join(ModsPath,jc)    )
-
-
+    MoveFileBySuffix(SourceFolder=SubMod,DestinyFolder=ModsPath,suffix='.mod')
 
 
 
@@ -136,15 +136,9 @@ DependentOfilesString = " ".join(DependentOfiles)
 os.chdir(ProjPath)
 CompileCommand = Compiler +" -c "+ ComFlag + " -IMods "+DependentOfilesString+"  *.f90 "+CLib
 os.system(CompileCommand)
-ProjectModsfiles = GetListDirectory(ProjPath).GetListdirNameBySuffix('.mod')
 #--------------------------------
 # move mods into folder Mods
-for jc in ProjectModsfiles:
-    os.rename( os.path.join(ProjPath,jc) , os.path.join(ModsPath,jc)       )
+MoveFileBySuffix(SourceFolder=ProjPath,DestinyFolder=ModsPath,suffix='.mod')
 #-------------------------------
-#move wanted ofile into Ofil
-ProjectOfiles = GetListDirectory(ProjPath).GetListdirNameBySuffix('.o')
-for jc in ProjectOfiles:
-    os.rename( os.path.join(ProjPath,jc) , os.path.join(OfilPath,jc)       )
-
-    
+# move wanted ofile into Ofil
+MoveFileBySuffix(SourceFolder=ProjPath,DestinyFolder=OfilPath,suffix='.o')
