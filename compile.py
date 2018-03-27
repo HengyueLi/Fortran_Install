@@ -118,7 +118,7 @@ for pro in SubProjList:
     #-----------------------------------------------------------
     # move ofile to current/Ofiles folders
     SubOfil = os.path.join( SubProPath , 'Ofil' )
-    MoveFileBySuffix(SourceFolder=SubProPath,DestinyFolder=SubOfil,suffix='.o')
+    MoveFileBySuffix(SourceFolder=SubProPath,DestinyFolder=OfilPath,suffix='.o')
     #-----------------------------------------------------------
     # move all '.mod' files to main project/Mods
     SubMod      = os.path.join(SubProPath,'Mods')
