@@ -8,11 +8,11 @@ In the project one may see 5 folders: /Depe, /Incl, /Mods, /Ofil and /Install. W
 run "python3 compile.py [o]" in command line where compile.py is in /Install.
 [o] represent options while can be empty. One can check detailes by "python3 compile.py -h".
 
-## some illusrtations:
--c : set compiler .  "python3 compile.py -c gfortran" for instance. The defult compiler is 'ifort'
--f : set some flag to compiler.
--l : add some lib path to compiler. The syntax is the same in general compilers. For example '-llapack' to use lapack.
+## Some illusrtations:
+* -c : set compiler .  "python3 compile.py -c gfortran" for instance. The defult compiler is 'ifort'
+* -f : set some flag to compiler.
+* -l : add some lib path to compiler. The syntax is the same in general compilers. For example '-llapack' to use lapack.
 
 # How to use.
 After the compiling, one can found many '.o' files in /Ofil and '.mod' in /Mods. Only this object files can be used. For instance one may use the lib in his own code 'main.f90', then compile the code by use 'gfortran /Ofil/*.o -IMods main.f90 -o run.exe'.
-One should notice that the chosen compiler should be the same as the previous using. 
+One should notice that the chosen compiler should be the same as the previous using.
