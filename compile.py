@@ -127,14 +127,20 @@ for pro in SubProjList:
 
 
 
-
+#--------------------------------
+# scan all o-files
 f = GetListDirectory(ModsPath)
 DependentOfiles = f.GetFullPath( f.GetListdirNameBySuffix('.o') )
 DependentOfilesString = " ".join(DependentOfiles)
 #--------------------------------
+# scan all include files
+f     = GetListDirectory(InclPath)
+Iflag = " ".join( [" -I" + jc for jc in f.GetFullPath(   f.GetlistdirNameNonehidden() )] )
+
+#--------------------------------
 #  compile
 os.chdir(ProjPath)
-CompileCommand = Compiler +" -c "+ ComFlag + " -IMods "+DependentOfilesString+"  *.f90 "+CLib
+CompileCommand = Compiler +" -c "+ ComFlag + " -IMods " + Iflag +DependentOfilesString+"  *.f90 "+CLib
 os.system(CompileCommand)
 #--------------------------------
 # move mods into folder Mods
