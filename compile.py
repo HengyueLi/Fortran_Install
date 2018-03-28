@@ -133,13 +133,13 @@ for pro in SubProjList:
 # DependentOfiles = f.GetFullPath( f.GetListdirNameBySuffix('.o') )
 # DependentOfilesString = " ".join(DependentOfiles)
 f = GetListDirectory(OfilPath)
-DependentOfiles = f.GetFullPath( f.GetListdirNameBySuffix('.o') ) 
+DependentOfiles = f.GetFullPath( f.GetListdirNameBySuffix('.o') )
 DependentOfilesString = " ".join(DependentOfiles)
 
 #--------------------------------
 # scan all include files
 f     = GetListDirectory(InclPath)
-Iflag = " ".join( [" -I" + jc for jc in f.GetFullPath(   f.GetlistdirNameNonehidden() )] )
+Iflag = " ".join( [" -I" + jc + " " for jc in f.GetFullPath(   f.GetlistdirNameNonehidden() )] )
 
 #--------------------------------
 #  compile
