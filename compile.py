@@ -129,9 +129,13 @@ for pro in SubProjList:
 
 #--------------------------------
 # scan all o-files
-f = GetListDirectory(ModsPath)
-DependentOfiles = f.GetFullPath( f.GetListdirNameBySuffix('.o') )
+# f = GetListDirectory(ModsPath)
+# DependentOfiles = f.GetFullPath( f.GetListdirNameBySuffix('.o') )
+# DependentOfilesString = " ".join(DependentOfiles)
+f = GetListDirectory(OfilPath)
+DependentOfiles = f.GetFullPath( f.GetListdirNameBySuffix('.o') ) 
 DependentOfilesString = " ".join(DependentOfiles)
+
 #--------------------------------
 # scan all include files
 f     = GetListDirectory(InclPath)
