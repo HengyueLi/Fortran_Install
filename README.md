@@ -11,7 +11,7 @@ In the project one may see 5 folders: /Depe, /Incl, /Mods, /Ofil and /Install. W
 run "python3 compile.py [o]" in command line where compile.py is in /Install.
 [o] represent options while can be empty. One can check detailes by "python3 compile.py -h".
 
-## Some illusrtations:
+## Some instructions:
 * -c : set compiler .  "python3 compile.py -c gfortran" for instance. The defult compiler is 'ifort'
 * -f : set some flag to compiler.
 * -l : add some lib path to compiler. The syntax is the same in general compilers. For example '-llapack' to use lapack.
@@ -23,4 +23,4 @@ One should notice that the chosen compiler should be the same as the previous us
 # Obligation (will update):
 People whose research is benefited from this code would be asked to CONSIDER to cite the papers below:
 
-* 
+*
