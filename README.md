@@ -34,7 +34,7 @@ After the compiling, one can found many '.o' files in /Ofil and '.mod' in /Mods.
 
 In case some modules are lapack dependent, use:
 
-    ifort /Ofil/\*.o -IMods main.f90 -o run.exe -llapack
+    ifort /Ofil/*.o -IMods main.f90 -o run.exe -llapack
 
 One should notice that the chosen compiler should be the same as the previous one in [Compile](https://github.com/HengyueLi/Fortran_Install#compile). The default chosen compiler is ifort as mentioned.
 
